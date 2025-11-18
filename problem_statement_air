@@ -1,0 +1,197 @@
+# Air Quality Prediction Hackathon
+
+## 🎯 Task
+Predict the AirQuality index (1 to 5) using weather + pollution sensor data.
+
+- This is a **multiclass classification** problem.
+- Target variable: `AirQuality` (values: 1, 2, 3, 4, 5)
+
+---
+
+## 🗂 Dataset Files
+
+You are provided with:
+
+1. `train.csv`
+2. `test.csv` (target removed)
+3. `sample_submission.csv`
+
+## 🧪 train.csv
+Contains **80% earliest chronological data**.
+
+Includes all columns:
+
+- Weather features (Temp, Humidity, etc.)
+- Pollution features (PM2.5, PM10, CO, NO2, etc.)
+- Cyclical time features (SineDay, CosineDay, etc.)
+- Target: **AirQuality** (1 to 5)
+
+## 🔍 test.csv
+Contains **20% most recent timestamps**.
+
+Same features as train **except `AirQuality` is removed**.
+
+Your job:  
+Predict the `AirQuality` for each row.
+
+## 📤 sample_submission.csv
+
+Format:
+
+UtcTime | AirQuality  
+---|-------------  
+integer row index | predicted value (1–5)
+
+You must submit a file in this exact format.
+
+---
+
+## 🏆 Evaluation Metric
+
+## ⚠ Important Notes
+
+- The split is **time-based**, so there is **no data leakage**.
+- You may use ML models or deep learning.
+- You must submit predictions for **every row in test.csv**.
+
+------------------------------------------------------------------------------------------------
+
+# ✅ Column-by-Column Explanation
+
+## 🕒 Time Features
+
+These create cyclical representations of time so ML models can learn periodic patterns.
+
+- 1. UtcTime
+
+Unix timestamp
+
+- 2. LocalDate
+
+Human-readable date for Kiev (YYYY-MM-DD).
+
+- 3. LocalHour
+
+Hour of day (0–23) in local time.
+
+# ✅ ⏳ Cyclical Time Encodings
+
+These are sine/cosine transforms so ML can understand cyclic behavior (day, week, month, year).
+
+Why?
+Because hour 23 and hour 0 are far apart numerically, but adjacent cyclically.
+
+- 4–5. SineDay, CosineDay
+
+Encode hour of day (0–23) on a circle.
+
+Helps model daily temperature/pollution cycles.
+
+- 6–7. SineWeek, CosineWeek
+
+Day of the week (Mon…Sun) encoded cyclically.
+
+- 8–9. SineMonth, CosineMonth
+
+Month of year encoded cyclically (Jan → Dec).
+
+- 10–11. SineYear, CosineYear
+
+Encodes long-term yearly seasonality.
+
+# 🌡 Weather Features
+
+Direct meteorological measurements.
+
+- 12. Temperature
+
+Temperature (°C).
+
+- 13. DewPoint
+
+Temperature at which condensation starts.
+
+Indicates moisture/humidity.
+
+- 14. Pressure
+
+Atmospheric pressure (hPa).
+
+- 15. Humidity
+
+Relative humidity (%) — moisture in air.
+
+- 16. WindSpeed
+
+Wind speed (m/s).
+
+- 17–18. WindSine, WindCosine
+
+Wind direction encoded cyclically.
+
+Derived from wind angle.
+
+- 19. WindAngle
+
+Wind direction in degrees (0–360°).
+
+- 20. CloudLevel
+
+Cloud cover percentage (0–100).
+
+- 21. WeatherType
+
+Text label such as:
+
+Clouds
+
+Rain
+
+Clear
+
+Snow, etc.
+
+# Air Pollution Features
+
+These are concentrations of pollution gases and particles.
+
+- 22. LevelCO
+
+Carbon monoxide (µg/m³).
+
+- 23. LevelNO
+
+Nitric oxide (NO) — traffic and industrial emissions.
+
+- 24. LevelNO2
+
+Nitrogen dioxide (NO₂) — harmful pollutant.
+
+- 25. LevelO3
+
+Ozone (O₃) — ground-level ozone (harmful).
+
+- 26. LevelSO2
+
+Sulfur dioxide (SO₂) — industrial pollutant.
+
+- 27. LevelNH3
+
+Ammonia (NH₃) — agriculture/industry emissions.
+
+- 28. LevelPM2
+
+Particulate Matter < 2.5 microns (PM2.5).
+
+Very harmful small particles.
+
+- 29. LevelPM10
+
+Particulate Matter < 10 microns (PM10).
+
+# 🟩 Target Variable
+- 30. AirQuality
+
+Integer class label representing AQI category.
+
+
